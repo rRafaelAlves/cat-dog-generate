@@ -1,25 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as C from './App.styles';
+import AnimalFolder from './components/AnimalFolder';
+import Button from './components/Button';
+import { ImageFolder } from './types/Types';
+import { Cats, Dogs } from './constants/AnimalConstants';
 
 function App() {
+
+  const [imagesWindow, setImagesWindow] = React.useState<Array<ImageFolder>>([]);
+
+
+
+  function handleDog(){
+    const arrayLenght = Dogs.length;
+    const arrayIndex = Math.floor(Math.random() * arrayLenght);
+
+    setImagesWindow(prev => [...prev, Dogs[arrayIndex]]);
+
+  }
+  function handleCat(){
+    const arrayLenght = Cats.length;
+    const arrayIndex = Math.floor(Math.random() * arrayLenght);
+
+    setImagesWindow(prev => [...prev, Cats[arrayIndex]]);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <C.Container>
+        <Button handleAnimal={handleDog}> Cachorro </Button>
+        <Button handleAnimal={handleCat}> Gato </Button>
+
+        {imagesWindow.map((element, index) => (
+          <AnimalFolder key={index} img={element.img} size={element.size}></AnimalFolder>
+        ))}
+    </C.Container>
   );
 }
 
